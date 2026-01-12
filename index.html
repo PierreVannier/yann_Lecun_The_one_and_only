@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yann LeCun - Pioneer of Deep Learning</title>
+    <meta name="description" content="Yann LeCun - Turing Award Laureate, Pioneer of Deep Learning and Convolutional Neural Networks">
+    <meta name="keywords" content="Yann LeCun, AI, Machine Learning, Deep Learning, Turing Award, Meta, NYU, ConvNets">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --gold: #fbbf24;
+            --gold-light: #fcd34d;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dark: #1e293b;
+            --bg-dark: #020617;
+            --bg-card: rgba(30, 41, 59, 0.5);
+            --border: rgba(148, 163, 184, 0.1);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background: var(--bg-dark);
+            line-height: 1.7;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--bg-dark);
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+            animation: bgMove 20s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(2%, 2%) rotate(1deg); }
+            66% { transform: translate(-1%, 1%) rotate(-1deg); }
+        }
+
+        /* Neural Network Animation */
+        .neural-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        nav .logo span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--text);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-image-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+            width: 320px;
+            height: 320px;
+        }
+
+        .hero-image-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            animation: rotate 8s linear infinite;
+        }
+
+        .hero-image-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+            border: 4px solid var(--bg-dark);
+        }
+
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-text h1 span {
+            display: block;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .hero-roles {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-role {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .hero-role::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .hero-role a {
+            color: var(--accent-light);
+            text-decoration: none;
+        }
+
+        .hero-role a:hover {
+            text-decoration: underline;
+        }
+
+        /* Badges */
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            border-color: var(--accent);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+
+        .badge.turing {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(245, 158, 11, 0.1) 100%);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .badge.turing::before {
+            content: '★';
+            color: var(--gold);
+        }
+
+        /* Stats */
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 6rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent);
+            opacity: 0.7;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        h2 span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1.5rem;
+            color: var(--text);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        a {
+            color: var(--accent-light);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: var(--text);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--text);
+        }
+
+        .card-featured {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border-color: var(--accent);
+        }
+
+        /* Social Grid */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-link:hover {
+            border-color: var(--accent);
+            transform: translateX(8px);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .social-icon.threads { background: linear-gradient(135deg, #000 0%, #333 100%); }
+        .social-icon.linkedin { background: linear-gradient(135deg, #0077b5 0%, #00a0dc 100%); }
+        .social-icon.facebook { background: linear-gradient(135deg, #1877f2 0%, #3b5998 100%); }
+        .social-icon.bluesky { background: linear-gradient(135deg, #0085ff 0%, #00c7ff 100%); }
+        .social-icon.twitter { background: linear-gradient(135deg, #14171a 0%, #657786 100%); }
+
+        .social-info strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .social-info span {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Contact Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .contact-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-block h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .contact-block ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .contact-block li {
+            padding: 0.5rem 0;
+            color: var(--text-muted);
+        }
+
+        /* Publications Links */
+        .pub-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .pub-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .pub-link:hover {
+            border-color: var(--accent);
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .pub-link::before {
+            content: '→';
+            color: var(--accent);
+            transition: transform 0.3s ease;
+        }
+
+        .pub-link:hover::before {
+            transform: translateX(4px);
+        }
+
+        /* Video List */
+        .video-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .video-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .video-list li::before {
+            content: '▶';
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+
+        .video-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Awards */
+        .awards-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .awards-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+        }
+
+        .award-item {
+            position: relative;
+            padding: 1.5rem;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .award-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 2px solid var(--bg-dark);
+        }
+
+        .award-item:hover {
+            border-color: var(--accent);
+            transform: translateX(8px);
+        }
+
+        .award-item.major {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%);
+            border-color: var(--gold);
+        }
+
+        .award-item.major::before {
+            background: var(--gold);
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        .award-year {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .award-title {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .award-title strong {
+            color: var(--gold);
+        }
+
+        /* Students Grid */
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .student-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .student-card h3 {
+            margin-top: 0;
+            font-size: 1.25rem;
+        }
+
+        .student-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .student-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .student-list li:last-child {
+            border-bottom: none;
+        }
+
+        .student-list a {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .student-topic {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Media Section */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .media-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .media-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .media-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .media-list li:last-child {
+            border-bottom: none;
+        }
+
+        .media-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+
+        .media-content a {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .media-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Collapsible */
+        .collapsible-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .collapsible-header:hover {
+            border-color: var(--accent);
+        }
+
+        .collapsible-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+
+        .collapsible-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent);
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+        }
+
+        .collapsible-header.active .collapsible-icon {
+            transform: rotate(45deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .collapsible-content.show {
+            max-height: 5000px;
+        }
+
+        /* Notice */
+        .notice {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notice-icon {
+            font-size: 1.5rem;
+        }
+
+        .notice p {
+            margin: 0;
+            color: var(--gold-light);
+        }
+
+        /* Quote */
+        .quote-section {
+            text-align: center;
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .quote-section::before {
+            content: '"';
+            font-family: 'Playfair Display', serif;
+            font-size: 15rem;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--accent);
+            opacity: 0.1;
+            line-height: 1;
+        }
+
+        .quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            border-top: 1px solid var(--border);
+            padding: 4rem 2rem;
+            margin-top: 6rem;
+        }
+
+        footer .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .footer-links h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-light);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bottom p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 1.5rem;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .badges {
+                justify-content: center;
+            }
+
+            .hero-roles {
+                align-items: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(15, 23, 42, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            nav ul.show {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-image-wrapper {
+                width: 250px;
+                height: 250px;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .stat {
+                text-align: center;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .social-grid,
+            .contact-grid,
+            .students-grid,
+            .media-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <canvas id="neural-canvas" class="neural-bg"></canvas>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Yann <span>LeCun</span></a>
+            <button class="nav-toggle" onclick="toggleNav()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul id="nav-menu">
+                <li><a href="#about">About</a></li>
+                <li><a href="#work">Work</a></li>
+                <li><a href="#publications">Publications</a></li>
+                <li><a href="#awards">Awards</a></li>
+                <li><a href="#students">Students</a></li>
+                <li><a href="#media">Media</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-image-container">
+                <div class="hero-image-wrapper">
+                    <img src="./1642552032280.jpeg" alt="Yann LeCun" class="hero-image">
+                </div>
+            </div>
+            <div class="hero-text">
+                <h1>Yann <span>LeCun</span></h1>
+                <p class="hero-subtitle">Pioneer of Deep Learning & Convolutional Neural Networks</p>
+
+                <div class="hero-roles">
+                    <div class="hero-role">Executive Chairman, AMI Labs</div>
+                    <div class="hero-role">Jacob T. Schwartz Professor at <a href="http://www.nyu.edu/">NYU</a></div>
+                    <div class="hero-role">ACM Turing Award Laureate 2018</div>
+                </div>
+
+                <div class="badges">
+                    <span class="badge turing">Turing Award 2018</span>
+                    <span class="badge">Queen Elizabeth Prize 2025</span>
+                    <span class="badge">VinFuture Prize 2024</span>
+                    <span class="badge">Legion d'Honneur</span>
+                    <span class="badge">NAE Member</span>
+                    <span class="badge">NAS Member</span>
+                    <span class="badge">Academie des Sciences</span>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">500K+</div>
+                        <div class="stat-label">Citations</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">40+</div>
+                        <div class="stat-label">Years in AI</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">PhD Students</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">Scroll to explore</div>
+    </header>
+
+    <main>
+        <!-- Social Networks -->
+        <section id="about">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2>Connect <span>& Follow</span></h2>
+            </div>
+
+            <div class="social-grid">
+                <a href="https://www.threads.net/@yannlecun" class="social-link">
+                    <div class="social-icon threads">T</div>
+                    <div class="social-info">
+                        <strong>Threads</strong>
+                        <span>@yannlecun - ML/AI, announcements, politics</span>
+                    </div>
+                </a>
+                <a href="https://www.linkedin.com/in/yann-lecun/" class="social-link">
+                    <div class="social-icon linkedin">in</div>
+                    <div class="social-info">
+                        <strong>LinkedIn</strong>
+                        <span>yann-lecun - Research & industry</span>
+                    </div>
+                </a>
+                <a href="https://www.facebook.com/yann.lecun" class="social-link">
+                    <div class="social-icon facebook">f</div>
+                    <div class="social-info">
+                        <strong>Facebook</strong>
+                        <span>yann.lecun - Science, culture, hobbies</span>
+                    </div>
+                </a>
+                <a href="https://bsky.app/profile/yann-lecun.bsky.social" class="social-link">
+                    <div class="social-icon bluesky">B</div>
+                    <div class="social-info">
+                        <strong>BlueSky</strong>
+                        <span>@yann-lecun.bsky.social</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="card" style="margin-top: 2rem;">
+                <p style="margin: 0;"><strong>Note on X/Twitter:</strong> As of December 2024, I no longer write posts on X. I occasionally share links to posts on other platforms, sometimes retweet interesting content, and rarely comment on friends' tweets. But I don't write substantial content there anymore.</p>
+            </div>
+        </section>
+
+        <!-- Biography -->
+        <section id="work">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2>Biography <span>& Career</span></h2>
+            </div>
+
+            <div class="pub-links">
+                <a href="https://docs.google.com/document/d/1mtBSxZgie86MAn1Mgoowj92hAwo8wIbCCvY9wwKih2Q/edit?usp=sharing" class="pub-link">Full Curriculum Vitae</a>
+                <a href="https://docs.google.com/document/d/1liH9utlyETxvywBQAaXWRcK-l-qV9SCFTEVG0QJLktI/edit?usp=sharing" class="pub-link">Biographies (EN & FR)</a>
+            </div>
+
+            <h3>NYU Affiliations</h3>
+            <div class="contact-grid">
+                <div class="contact-block">
+                    <h4>Research Labs</h4>
+                    <ul>
+                        <li><a href="https://wp.nyu.edu/cilvr/">CILVR Lab</a> - Computational Intelligence, Learning, Vision, Robotics</li>
+                        <li><a href="http://www.cs.nyu.edu/">Computer Science Department</a>, Courant Institute</li>
+                        <li><a href="http://cds.nyu.edu/">Center for Data Science</a></li>
+                        <li><a href="http://www.cns.nyu.edu/">Center for Neural Science</a></li>
+                    </ul>
+                </div>
+                <div class="contact-block">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><strong>Speaking invitations:</strong> lecuninvites[at]gmail.com</li>
+                        <li><strong>AMI Labs:</strong> sean[at]amilabs.xyz (Sean Nguyen)</li>
+                        <li><strong>NYU:</strong> hongtam[at]cs.nyu.edu (Hong Tam)</li>
+                        <li><strong>Office:</strong> Room 516, 60 Fifth Avenue, New York, NY 10011</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publications -->
+        <section id="publications">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2>Research <span>& Publications</span></h2>
+            </div>
+
+            <div class="card card-featured">
+                <h3>Main Research Interests</h3>
+                <p style="font-size: 1.1rem; color: var(--text);">AI, Machine Learning, Computer Vision, Robotics, and Computational Neuroscience. Also interested in Physics of Computation and applications of machine learning.</p>
+            </div>
+
+            <h3>Publications</h3>
+            <div class="pub-links">
+                <a href="https://scholar.google.com/citations?user=WLN3QrAAAAAJ&hl=fr" class="pub-link">Google Scholar</a>
+                <a href="https://openreview.net/profile?id=~Yann_LeCun1" class="pub-link">OpenReview.net</a>
+                <a href="http://arxiv.org/find/all/1/all:+AND+yann+lecun/0/1/0/all/0/1" class="pub-link">ArXiv Preprints</a>
+                <a href="http://yann.lecun.com/exdb/publis/index.html" class="pub-link">Full Publication List</a>
+            </div>
+
+            <h3>Deep Learning Course</h3>
+            <div class="card">
+                <p><a href="https://cds.nyu.edu/deep-learning/" style="font-size: 1.1rem; font-weight: 600;">Deep Learning at NYU</a></p>
+                <p>Complete course with all material available online: lectures, practicums, videos, slide decks, homeworks, Jupyter notebooks, and transcripts in multiple languages.</p>
+            </div>
+
+            <h3>Working Paper</h3>
+            <div class="card card-featured">
+                <h3><a href="https://openreview.net/forum?id=BZ5a1r-kVsf">A Path Towards Autonomous Machine Intelligence</a></h3>
+                <p style="color: var(--accent); margin-bottom: 1rem;">June 2022</p>
+                <p>How could machines learn as efficiently as humans and animals? This position paper proposes an architecture combining configurable predictive world models, intrinsic motivation, and hierarchical joint embedding architectures trained with self-supervised learning.</p>
+
+                <h4 style="margin-top: 1.5rem; font-size: 1rem; color: var(--text);">Recent Lectures:</h4>
+                <ul class="video-list">
+                    <li><strong>2025-09-16</strong> Harvard CMSA - <a href="https://youtu.be/yUmDRxV0krg">Self-Supervised Learning, JEA, World Models</a></li>
+                    <li><strong>2025-04-27</strong> NUS - <a href="https://www.youtube.com/live/m3H2q6MXAzs">Shaping the Future of AI</a></li>
+                    <li><strong>2024-10-18</strong> Columbia - <a href="https://youtu.be/xL6Y0dpXEwc">How could machines reach human-level intelligence?</a></li>
+                </ul>
+            </div>
+
+            <h3>Books</h3>
+            <div class="contact-grid">
+                <div class="card">
+                    <h3><a href="https://www.odilejacob.fr/catalogue/sciences/informatique/quand-la-machine-apprend_9782738149312.php">Quand La Machine Apprend</a></h3>
+                    <p>La revolution des neurones artificiels et de l'apprentissage profond</p>
+                    <p style="font-size: 0.9rem;">Editions Odile Jacob, 2019 - Available in Chinese, Japanese, Russian</p>
+                </div>
+                <div class="card">
+                    <h3><a href="https://www.lisez.com/livre-grand-format/la-plus-belle-histoire-de-lintelligence/9782221221105">La Plus Belle Histoire de l'Intelligence</a></h3>
+                    <p>Des origines aux neurones artificiels</p>
+                    <p style="font-size: 0.9rem;">With Stanislas Dehaene & Jacques Girardon, 2018</p>
+                </div>
+            </div>
+
+            <h3>Videos</h3>
+            <ul class="video-list">
+                <li><a href="https://www.youtube.com/playlist?list=PL80I41oVxglK--is17UhoHVosOLFEJzKQ">Talks by Yann LeCun</a></li>
+                <li><a href="https://www.youtube.com/playlist?list=PL80I41oVxglJ0kTDV7i3aHBIXe65nTxE7">Lecture Series</a></li>
+                <li><a href="https://www.youtube.com/playlist?list=PL80I41oVxglJ2TJzOJtnPZthD5mj8kfZX">Debates and Panels</a></li>
+                <li><a href="https://www.youtube.com/playlist?list=PL80I41oVxglJOokgsaIKw4ZJORQC0Qc_5">Interviews</a></li>
+            </ul>
+        </section>
+
+        <!-- Quote Section -->
+        <section class="quote-section">
+            <blockquote class="quote">
+                Our intelligence is what makes us human, and AI is an extension of that quality.
+            </blockquote>
+        </section>
+
+        <!-- Awards -->
+        <section id="awards">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2>Honors <span>& Awards</span></h2>
+            </div>
+
+            <div class="awards-timeline">
+                <div class="award-item major">
+                    <div class="award-year">2025</div>
+                    <div class="award-title"><strong>Queen Elizabeth Prize for Engineering</strong> - Shared with Bengio, Hinton, Hopfield, Dally, Huang, Li</div>
+                </div>
+                <div class="award-item major">
+                    <div class="award-year">2024</div>
+                    <div class="award-title"><strong>VinFuture Grand Prize</strong> - Shared with Bengio, Hinton, Huang, Li</div>
+                </div>
+                <div class="award-item">
+                    <div class="award-year">2024</div>
+                    <div class="award-title">TIME 100 Impact Award</div>
+                </div>
+                <div class="award-item">
+                    <div class="award-year">2024</div>
+                    <div class="award-title">ACM Fellow</div>
+                </div>
+                <div class="award-item">
+                    <div class="award-year">2024</div>
+                    <div class="award-title">Great Immigrant Award, Carnegie Corporation</div>
+                </div>
+                <div class="award-item major">
+                    <div class="award-year">2023</div>
+                    <div class="award-title"><strong>Chevalier de la Legion d'Honneur</strong>, France</div>
+                </div>
+                <div class="award-item major">
+                    <div class="award-year">2022</div>
+                    <div class="award-title"><strong>Princess of Asturias Award</strong> - With Hassabis, Bengio, Hinton</div>
+                </div>
+                <div class="award-item major">
+                    <div class="award-year">2022</div>
+                    <div class="award-title"><strong>Foreign Member, Academie des Sciences</strong>, France</div>
+                </div>
+                <div class="award-item major">
+                    <div class="award-year">2021</div>
+                    <div class="award-title"><strong>Member, US National Academy of Sciences</strong></div>
+                </div>
+                <div class="award-item major">
+                    <div class="award-year">2018</div>
+                    <div class="award-title"><strong>ACM A.M. Turing Award</strong> - Shared with Geoffrey Hinton and Yoshua Bengio</div>
+                </div>
+                <div class="award-item major">
+                    <div class="award-year">2017</div>
+                    <div class="award-title"><strong>Member, US National Academy of Engineering</strong></div>
+                </div>
+                <div class="award-item">
+                    <div class="award-year">2015-16</div>
+                    <div class="award-title">Annual Chair in Computer Science, College de France</div>
+                </div>
+                <div class="award-item">
+                    <div class="award-year">2014</div>
+                    <div class="award-title">IEEE Neural Network Pioneer Award</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Students -->
+        <section id="students">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2>Students <span>& Postdocs</span></h2>
+            </div>
+
+            <div class="students-grid">
+                <div class="student-card">
+                    <h3>Current PhD Students</h3>
+                    <ul class="student-list">
+                        <li>
+                            <a href="https://yingwangg.github.io/">Ying Wang</a> (NYU CS)
+                            <span class="student-topic">SSL for control and planning</span>
+                        </li>
+                        <li>
+                            <a href="https://yilunkuang.github.io/">Yilun Kuang</a> (NYU CS)
+                            <span class="student-topic">SSL for control and planning</span>
+                        </li>
+                        <li>
+                            <a href="https://gaoyuezhou.github.io/">Gaoyue "Kathy" Zhou</a> (NYU CS)
+                            <span class="student-topic">SSL for control and planning</span>
+                        </li>
+                        <li>
+                            <a href="https://tsb0601.github.io/petertongsb/">Shengbang "Peter" Tong</a> (NYU CS)
+                            <span class="student-topic">SSL for video</span>
+                        </li>
+                        <li>
+                            <a href="https://kevinghst.github.io/">Wangcong "Kevin" Zhang</a> (NYU CS)
+                            <span class="student-topic">SSL for planning</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="student-card">
+                    <h3>Current Postdocs</h3>
+                    <ul class="student-list">
+                        <li>
+                            <a href="https://github.com/theobdt">Theo Bodrito</a> (Meta-FAIR, 2025-)
+                            <span class="student-topic">Self-supervised learning</span>
+                        </li>
+                        <li>
+                            <a href="https://zzwaang.github.io/">Ziyu Wang</a> (NYU, 2025-)
+                            <span class="student-topic">SSL and music</span>
+                        </li>
+                        <li>
+                            <a href="https://quentinll.github.io/">Quentin Le Lidec</a> (NYU, 2025-)
+                            <span class="student-topic">Planning and Control</span>
+                        </li>
+                        <li>
+                            <a href="https://oumayb.github.io/">Oumayma Bounou</a> (NYU, 2025-)
+                            <span class="student-topic">Planning and Control</span>
+                        </li>
+                        <li>
+                            Gelareh Naseri (NYU, 2021-)
+                            <span class="student-topic">Music synthesis</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="collapsible-header" onclick="toggleSection(this)">
+                <h3>Former PhD Students & Postdocs</h3>
+                <span class="collapsible-icon">+</span>
+            </div>
+            <div class="collapsible-content">
+                <div class="card">
+                    <p>Notable alumni include leaders at DeepMind, OpenAI, Meta AI, Google Brain, and top universities worldwide:</p>
+                    <ul style="list-style: none; padding: 0; column-count: 2; column-gap: 2rem; margin-top: 1rem;">
+                        <li style="padding: 0.5rem 0;"><a href="https://koray.kavukcuoglu.org/">Koray Kavukcuoglu</a> - VP GenAI, DeepMind</li>
+                        <li style="padding: 0.5rem 0;"><a href="https://raiahadsell.com/">Raia Hadsell</a> - VP Foundations, DeepMind</li>
+                        <li style="padding: 0.5rem 0;"><a href="http://clmt.ai/">Clement Farabet</a> - VP Research, DeepMind</li>
+                        <li style="padding: 0.5rem 0;"><a href="https://scholar.google.com/citations?user=XCZpOcAAAAAJ">Wojciech Zaremba</a> - OpenAI</li>
+                        <li style="padding: 0.5rem 0;"><a href="http://jingli.io/">Li Jing</a> - OpenAI</li>
+                        <li style="padding: 0.5rem 0;"><a href="https://sermanet.github.io/">Pierre Sermanet</a> - DeepMind</li>
+                        <li style="padding: 0.5rem 0;"><a href="https://ranzato.github.io/">Marc'Aurelio Ranzato</a> - DeepMind</li>
+                        <li style="padding: 0.5rem 0;"><a href="https://cims.nyu.edu/~bruna/">Joan Bruna</a> - Professor, NYU</li>
+                        <li style="padding: 0.5rem 0;"><a href="https://scholar.google.com/citations?user=vqb78-gAAAAJ">Alexander Rives</a> - CEO, Evolutionary Scale</li>
+                        <li style="padding: 0.5rem 0;">Yoshua Bengio - Professor, U. Montreal (postdoc 1992-93)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Media -->
+        <section id="media">
+            <div class="section-header">
+                <span class="section-number">06</span>
+                <h2>In The <span>Media</span></h2>
+            </div>
+
+            <div class="media-grid">
+                <div class="media-card">
+                    <h3>Featured Podcasts (English)</h3>
+                    <ul class="media-list">
+                        <li>
+                            <span class="media-date">12/2025</span>
+                            <div class="media-content">
+                                <a href="https://www.the-information-bottleneck.com/ep20-yann-lecun/">The Information Bottleneck</a>
+                                <div class="media-desc">"Why LLMs Will Never Get Us to AGI"</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="media-date">03/2025</span>
+                            <div class="media-content">
+                                <a href="https://www.youtube.com/watch?v=UYnm_h6EPFg">Nvidia GTC</a>
+                                <div class="media-desc">Conversation with Bill Dally</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="media-date">03/2024</span>
+                            <div class="media-content">
+                                <a href="https://www.youtube.com/watch?v=5t1vTLU7s40">Lex Fridman #416</a>
+                                <div class="media-desc">"Meta AI, Open Source, Limits of LLMs"</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="media-date">06/2020</span>
+                            <div class="media-content">
+                                <a href="https://www.ted.com/talks/yann_lecun_deep_learning_neural_networks_and_the_future_of_ai">TED Talk</a>
+                                <div class="media-desc">"Deep learning and the future of AI"</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="media-card">
+                    <h3>Featured Press</h3>
+                    <ul class="media-list">
+                        <li>
+                            <span class="media-date">01/2026</span>
+                            <div class="media-content">
+                                <a href="https://www.ft.com/content/e3c4c2f6-4ea7-4adf-b945-e58495f836c2">Financial Times</a>
+                                <div class="media-desc">"Intelligence really is about learning"</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="media-date">11/2025</span>
+                            <div class="media-content">
+                                <a href="https://www.wsj.com/tech/ai/yann-lecun-ai-meta-0058b13c">Wall Street Journal</a>
+                                <div class="media-desc">"He's Been Right About AI for 40 Years"</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="media-date">12/2023</span>
+                            <div class="media-content">
+                                <a href="https://www.wired.com/story/artificial-intelligence-meta-yann-lecun-interview/">Wired</a>
+                                <div class="media-desc">"How Not to Be Stupid About AI"</div>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="media-date">03/2019</span>
+                            <div class="media-content">
+                                <a href="https://www.nytimes.com/2019/03/27/technology/turing-award-ai.html">New York Times</a>
+                                <div class="media-desc">"Turing Award Won by 3 Pioneers"</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pamphlets -->
+        <section id="opinions">
+            <div class="section-header">
+                <span class="section-number">07</span>
+                <h2>Opinions <span>& Essays</span></h2>
+            </div>
+
+            <div class="card">
+                <h3><a href="https://docs.google.com/document/d/1LlNCY9_4MXhilnbu9MqKhSjHjMGqtDA8zZmSQynVjmY">How to Build a Vibrant Technology Industry</a></h3>
+                <p style="color: var(--accent);">May 2025</p>
+                <p>As the US seems set on self-sabotaging its research funding system, other countries may want to seize the opportunity to reboot their own research ecosystem.</p>
+            </div>
+
+            <div class="card">
+                <h3><a href="https://docs.google.com/document/d/1Yz3-Xq3JJEoPGdgeDdT6Ma-j3iI66zOfVsB0OsQZMqY">Address to the UN Security Council</a></h3>
+                <p style="color: var(--accent);">December 2024</p>
+                <p>On free/open source foundation models and international cooperation to train "universal" foundation models.</p>
+            </div>
+
+            <div class="card">
+                <h3><a href="https://docs.google.com/document/d/1cEdrzje8qN9cRx3DVfIqXGO5dQ3Hn4uV7GnylqmRyhc">AI and the Future of Europe</a></h3>
+                <p style="color: var(--accent);">February 2025 - with Bernhard Scholkopf & Nuria Oliver</p>
+                <p>We argue that European AI research funding should go to small groups of talented researchers, not large top-down managed projects.</p>
+            </div>
+        </section>
+
+        <!-- Legacy -->
+        <section id="legacy">
+            <div class="section-header">
+                <span class="section-number">08</span>
+                <h2>Legacy <span>Projects</span></h2>
+            </div>
+
+            <div class="notice">
+                <span class="notice-icon">⚠</span>
+                <p>Historical content from earlier years - some information may be outdated.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="card">
+                    <h3>Datasets & Benchmarks</h3>
+                    <div class="pub-links" style="margin-top: 1rem;">
+                        <a href="http://yann.lecun.com/exdb/mnist/index.html" class="pub-link">MNIST Database</a>
+                        <a href="http://www.cs.nyu.edu/~ylclab/data/norb-v1.0" class="pub-link">NORB Dataset</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Historic Demos</h3>
+                    <div class="pub-links" style="margin-top: 1rem;">
+                        <a href="http://yann.lecun.com/exdb/lenet/index.html" class="pub-link">LeNet Demos</a>
+                        <a href="http://lush.sourceforge.net/" class="pub-link">Lush Language</a>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Personal</h3>
+            <div class="card">
+                <p><strong>Hobbies:</strong> Playing music (Jazz, Renaissance, Baroque), sailing (Nacra 5.8 & Prindle 19), building radio-controlled aircraft, European comics, French wine (especially Bordeaux Saint-Julien).</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>Yann LeCun</h3>
+                    <p>Pioneer of Deep Learning, Convolutional Neural Networks, and modern AI. Working towards machines that can learn, reason, and plan like humans.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Research</h4>
+                    <ul>
+                        <li><a href="http://yann.lecun.com/exdb/publis/index.html">Publications</a></li>
+                        <li><a href="https://scholar.google.com/citations?user=WLN3QrAAAAAJ">Google Scholar</a></li>
+                        <li><a href="https://cds.nyu.edu/deep-learning/">DL Course</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Affiliations</h4>
+                    <ul>
+                        <li><a href="https://wp.nyu.edu/cilvr/">CILVR Lab</a></li>
+                        <li><a href="http://cds.nyu.edu/">NYU CDS</a></li>
+                        <li><a href="http://www.cims.nyu.edu/">Courant Institute</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="https://www.threads.net/@yannlecun">Threads</a></li>
+                        <li><a href="https://www.linkedin.com/in/yann-lecun/">LinkedIn</a></li>
+                        <li><a href="https://www.facebook.com/yann.lecun">Facebook</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2000-2025 Yann LeCun. All rights reserved.</p>
+                <p>Professor, The Courant Institute of Mathematical Sciences, NYU</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation
+        function toggleNav() {
+            document.getElementById('nav-menu').classList.toggle('show');
+        }
+
+        // Scroll effects
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Collapsible sections
+        function toggleSection(element) {
+            element.classList.toggle('active');
+            const content = element.nextElementSibling;
+            content.classList.toggle('show');
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                document.getElementById('nav-menu').classList.remove('show');
+            });
+        });
+
+        // Neural network background animation
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationFrame;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createParticles() {
+            particles = [];
+            const numParticles = Math.floor((canvas.width * canvas.height) / 15000);
+            for (let i = 0; i < numParticles; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    radius: Math.random() * 2 + 1
+                });
+            }
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw connections
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.1)';
+            ctx.lineWidth = 1;
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.globalAlpha = 1 - dist / 150;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw particles
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = 'rgba(99, 102, 241, 0.5)';
+
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Update position
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Bounce off edges
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+            });
+
+            animationFrame = requestAnimationFrame(drawParticles);
+        }
+
+        // Initialize
+        resizeCanvas();
+        createParticles();
+        drawParticles();
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            createParticles();
+        });
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
